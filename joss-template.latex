@@ -1,0 +1,67 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% --- Fix for Pandoc tight lists ---
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%
+}
+
+% --- Fix for Pandoc CSL References ---
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\cslentryspacingunit}
+\setlength{\cslentryspacingunit}{\baselineskip}
+
+\newenvironment{CSLReferences}[2]% #1 hanging-indent, #2 entry spacing
+ {\begin{list}{}{%
+  \setlength{\leftmargin}{\cslhangindent}%
+  \setlength{\itemindent}{-\cslhangindent}%
+  \setlength{\itemsep}{#2\cslentryspacingunit}%
+  \setlength{\parsep}{0pt}}}
+ {\end{list}}
+
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\cslhangindent}{#1}}
+\newcommand{\CSLRightInline}[1]{%
+  \parbox[t]{\dimexpr\linewidth-\cslhangindent\relax}{#1}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+% --- Robust no-op for \citeproctext (emitted by citeproc) ---
+\makeatletter
+\DeclareRobustCommand{\citeproctext}[1][]{#1}
+\makeatother
+
+% ===== Helpers to print authors & affiliations from YAML =====
+\makeatletter
+\newcommand{\printauthors}{%
+$for(authors)$%
+$authors.name$$if(authors.orcid)$ (\href{https://orcid.org/$authors.orcid$}{ORCID})$endif$$if(authors.affiliation)$\textsuperscript{$authors.affiliation$}$endif$$sep$, %
+$endfor$%
+}
+\newcommand{\printaffiliations}{%
+$for(affiliations)$%
+\textsuperscript{$affiliations.index$}$affiliations.name$\\%
+$endfor$%
+}
+\makeatother
+
+% ===== Title block =====
+\title{$title$}
+\author{\printauthors}
+\date{$date$}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\printaffiliations
+\end{center}
+
+$body$
+
+\end{document}
+

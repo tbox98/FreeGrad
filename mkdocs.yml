@@ -1,0 +1,24 @@
+site_name: freegrad
+site_url: https://tbox98.github.io/BackProp/
+repo_url: https://github.com/tbox98/BackProp
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Guides:
+      - Selective rules: guides/selective-rules.md
+      - Custom rules: guides/custom-rules.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - codehilite
+
+plugins:
+  - search
