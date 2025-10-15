@@ -1,6 +1,7 @@
-## `freegrad/transforms/jamming.py`
+# `freegrad/transforms/jamming.py`
 
 import torch
+
 from ..registry import register
 
 

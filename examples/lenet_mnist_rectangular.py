@@ -4,13 +4,15 @@ Settings from Table 4 (p. 13): BS=256, LR=0.01, Momentum=0.9, Epochs=20
 (Rectangular gradient is robust)
 """
 
+import time
+
 import torch
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as T
+
 import freegrad as fg
 from freegrad.wrappers import Activation
-import time
 
 # --- Hyperparameters from the paper ---
 BATCH_SIZE = 256
@@ -114,7 +116,8 @@ with fg.use("rectangular", params={"a": RECT_A, "b": RECT_B}, scope="activations
         test_acc = evaluate(model, test_loader)
 
         print(
-            f"Epoch {epoch + 1:02d}/{EPOCHS} | Time: {epoch_time:.2f}s | Train Loss: {avg_loss:.4f} | Train Acc: {train_acc:.3f} | Test Acc: {test_acc:.3f}"
+            f"Epoch {epoch + 1:02d}/{EPOCHS} | Time: {epoch_time:.2f}s | Train Loss: {avg_loss:.4f} | "
+            f"Train Acc: {train_acc:.3f} | Test Acc: {test_acc:.3f}"
         )
 
 print("\nTraining finished.")

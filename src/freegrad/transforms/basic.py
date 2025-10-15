@@ -1,7 +1,9 @@
-## `freegrad/transforms/basic.py`
+# `freegrad/transforms/basic.py`
 
 from typing import Optional
+
 import torch
+
 from ..registry import register
 
 

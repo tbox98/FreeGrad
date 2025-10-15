@@ -1,6 +1,6 @@
-## `freegrad/registry.py`
+# `freegrad/registry.py`
 
-from typing import Callable, Dict, Any, Union
+from typing import Callable, Dict, Union
 
 _RULES: Dict[str, Callable] = {}
 

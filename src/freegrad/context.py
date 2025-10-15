@@ -1,7 +1,8 @@
-## `freegrad/context.py`
+# `freegrad/context.py`
 
 import contextvars
-from typing import Any, Dict, Optional, Union, Iterable
+from typing import Any, Dict, Iterable, Optional, Union
+
 from .registry import get
 
 _current_rule = contextvars.ContextVar("freegrad_rule", default=None)

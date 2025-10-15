@@ -1,4 +1,5 @@
 import pytest
+
 from freegrad.wrappers import Activation
 
 

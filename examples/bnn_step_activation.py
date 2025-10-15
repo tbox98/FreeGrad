@@ -5,9 +5,10 @@ Settings from Tables 13–14 (pp. 17–18): use LR=0.1; small batches (e.g., BS=
 
 import torch
 import torch.nn as nn
-from torch.utils.data import TensorDataset, DataLoader
+from torch.utils.data import DataLoader, TensorDataset
+
 import freegrad as fg
-from freegrad.wrappers import Activation, _FWD_MAP
+from freegrad.wrappers import _FWD_MAP, Activation
 
 torch.manual_seed(0)
 

@@ -11,22 +11,31 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -e .[dev]
-      - name: Lint
-        run: |
-          black --check .
-          isort --check-only .
-          flake8
-          mypy src/freegrad || true
-      - name: Test
+          # Ensure ruff/mypy/pytest are present (or keep them in your [dev] extra)
+          pip install ruff mypy pytest
+
+      - name: Black (format check)
+        run: black --check .
+
+      - name: Ruff (lint)
+        run: ruff check .
+
+      - name: Mypy
+        run: mypy src/freegrad
+
+      - name: Tests
         run: pytest

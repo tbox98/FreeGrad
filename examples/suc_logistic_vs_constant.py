@@ -13,10 +13,11 @@ FreeGrad – SUC with Uniform-over-Hamming-Weight (UHW)
 - Defaults: BS=32, LR=0.1, EPOCHS=30, d=10, τ=0.5
 """
 
+from contextlib import nullcontext
+
 import torch
 import torch.nn as nn
-from torch.utils.data import TensorDataset, DataLoader
-from contextlib import nullcontext
+from torch.utils.data import DataLoader, TensorDataset
 
 import freegrad as fg
 from freegrad.wrappers import Activation

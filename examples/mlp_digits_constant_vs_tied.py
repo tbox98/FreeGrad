@@ -5,9 +5,10 @@ Settings from Table 3 (p. 12): BS=64, LR=0.05
 
 import torch
 import torch.nn as nn
-from torch.utils.data import TensorDataset, DataLoader
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader, TensorDataset
+
 import freegrad as fg
 from freegrad.wrappers import Activation
 

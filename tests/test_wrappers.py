@@ -1,6 +1,7 @@
 import torch
-from freegrad.wrappers import Activation
+
 import freegrad as xg
+from freegrad.wrappers import Activation
 
 
 def test_activation_forward_relu():

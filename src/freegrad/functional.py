@@ -1,7 +1,9 @@
-## `freegrad/functional.py`
+# `freegrad/functional.py`
 
 from typing import Callable, Tuple
+
 import torch
+
 from .context import use
 
 

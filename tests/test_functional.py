@@ -1,5 +1,6 @@
 import torch
-from freegrad.functional import vjp, jvp
+
+from freegrad.functional import vjp
 
 
 def test_vjp_matches_autograd_for_square_sum():
@@ -15,6 +16,7 @@ def test_vjp_matches_autograd_for_square_sum():
 
 def test_jvp_finite_difference_for_square():
     import torch
+
     from freegrad.functional import jvp
 
     torch.manual_seed(0)
