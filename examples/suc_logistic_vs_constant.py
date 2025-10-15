@@ -1,5 +1,5 @@
 """
-FreeGrad – SUC example (fixed)
+FreeGrad – SUC example
 ---------------------------------------------------
 - Forward: Logistic (sigmoid)
 - Loss:    BCELoss  (matches probabilistic output)
