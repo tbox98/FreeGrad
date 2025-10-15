@@ -1,5 +1,5 @@
 """
- – alternative backward rules alongside PyTorch autograd.
+– alternative backward rules alongside PyTorch autograd.
 """
 
 from importlib.metadata import version, PackageNotFoundError

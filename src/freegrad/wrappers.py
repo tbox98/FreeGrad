@@ -6,16 +6,20 @@ import torch.nn.functional as F
 from .context import _ctx_get
 
 
-def _relu6(x): return torch.clamp(x, 0.0, 6.0)
+def _relu6(x):
+    return torch.clamp(x, 0.0, 6.0)
 
 
-def _heaviside(x): return torch.heaviside(x, torch.tensor(0.0, dtype=x.dtype, device=x.device))
+def _heaviside(x):
+    return torch.heaviside(x, torch.tensor(0.0, dtype=x.dtype, device=x.device))
 
 
-def _leaky_relu(x): return F.leaky_relu(x, negative_slope=0.01)
+def _leaky_relu(x):
+    return F.leaky_relu(x, negative_slope=0.01)
 
 
-def _elu(x): return F.elu(x, alpha=1.0)
+def _elu(x):
+    return F.elu(x, alpha=1.0)
 
 
 _FWD_MAP: Dict[str, Callable] = {
@@ -49,7 +53,9 @@ class _FreeGradActivationFn(torch.autograd.Function):
             with torch.enable_grad():
                 x_req = x.detach().requires_grad_(True)
                 y = _FWD_MAP[ctx.fwd_name](x_req)
-                (grad_in,) = torch.autograd.grad(y, x_req, grad_out, retain_graph=False, create_graph=False)
+                (grad_in,) = torch.autograd.grad(
+                    y, x_req, grad_out, retain_graph=False, create_graph=False
+                )
             return grad_in, None
         # Untied case: apply user rule
         grad_in = rule(None, grad_out, x, **(params or {}))
@@ -62,7 +68,9 @@ class Activation(nn.Module):
     def __init__(self, forward: str = "ReLU"):
         super().__init__()
         if forward not in _FWD_MAP:
-            raise ValueError(f"Unsupported forward activation: {forward}. Supported: {sorted(_FWD_MAP.keys())}")
+            raise ValueError(
+                f"Unsupported forward activation: {forward}. Supported: {sorted(_FWD_MAP.keys())}"
+            )
         self._name = forward
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

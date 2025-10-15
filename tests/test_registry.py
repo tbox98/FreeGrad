@@ -19,6 +19,7 @@ def test_register_duplicate_raises():
         return g
 
     with pytest.raises(KeyError):
+
         @freegrad.register("unique_rule")
         def r2(ctx, g, x, **_):
             return g

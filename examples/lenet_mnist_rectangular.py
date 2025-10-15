@@ -3,6 +3,7 @@ Experiment 3 (Paper): LeNet-style CNN on MNIST
 Settings from Table 4 (p. 13): BS=256, LR=0.01, Momentum=0.9, Epochs=20
 (Rectangular gradient is robust)
 """
+
 import torch
 import torch.nn as nn
 import torchvision
@@ -43,11 +44,19 @@ class LeNetMini(nn.Module):
 
 # --- Data Loading ---
 transform = T.Compose([T.ToTensor()])
-train_dataset = torchvision.datasets.MNIST(root="./data", train=True, download=True, transform=transform)
-test_dataset = torchvision.datasets.MNIST(root="./data", train=False, download=True, transform=transform)
+train_dataset = torchvision.datasets.MNIST(
+    root="./data", train=True, download=True, transform=transform
+)
+test_dataset = torchvision.datasets.MNIST(
+    root="./data", train=False, download=True, transform=transform
+)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
+train_loader = torch.utils.data.DataLoader(
+    train_dataset, batch_size=BATCH_SIZE, shuffle=True
+)
+test_loader = torch.utils.data.DataLoader(
+    test_dataset, batch_size=BATCH_SIZE, shuffle=False
+)
 
 # --- Model, Optimizer, and Loss ---
 model = LeNetMini(forward="Logistic").to(device)
@@ -73,7 +82,9 @@ def evaluate(model, loader):
 
 
 # --- Training Loop ---
-print(f"\n[Training] Logistic / Rectangular(a={RECT_A},b={RECT_B}) on activations for {EPOCHS} epochs")
+print(
+    f"\n[Training] Logistic / Rectangular(a={RECT_A},b={RECT_B}) on activations for {EPOCHS} epochs"
+)
 
 # Use the freegrad context manager for the entire training process
 with fg.use("rectangular", params={"a": RECT_A, "b": RECT_B}, scope="activations"):
@@ -103,7 +114,8 @@ with fg.use("rectangular", params={"a": RECT_A, "b": RECT_B}, scope="activations
         test_acc = evaluate(model, test_loader)
 
         print(
-            f"Epoch {epoch + 1:02d}/{EPOCHS} | Time: {epoch_time:.2f}s | Train Loss: {avg_loss:.4f} | Train Acc: {train_acc:.3f} | Test Acc: {test_acc:.3f}")
+            f"Epoch {epoch + 1:02d}/{EPOCHS} | Time: {epoch_time:.2f}s | Train Loss: {avg_loss:.4f} | Train Acc: {train_acc:.3f} | Test Acc: {test_acc:.3f}"
+        )
 
 print("\nTraining finished.")
 

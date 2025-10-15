@@ -7,6 +7,7 @@ _RULES: Dict[str, Callable] = {}
 
 class RuleError(KeyError):
     """Custom error for invalid or duplicate gradient rules."""
+
     pass
 
 

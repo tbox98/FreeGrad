@@ -2,6 +2,7 @@
 Experiment 5 (Paper): CNN with Gradient Jamming
 Settings from Tables 6–8 (pp. 14–15): BS=64, LR=0.01
 """
+
 import torch
 import torch.nn as nn
 import torchvision
@@ -12,22 +13,28 @@ from freegrad.wrappers import Activation
 torch.manual_seed(0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+
 class SmallCNN(nn.Module):
     def __init__(self, forward="ReLU"):
         super().__init__()
         self.conv = nn.Conv2d(1, 8, 3, padding=1)
         self.act = Activation(forward)
         self.pool = nn.AvgPool2d(2)
-        self.fc = nn.Linear(8*14*14, 10)
+        self.fc = nn.Linear(8 * 14 * 14, 10)
+
     def forward(self, x):
         z = self.pool(self.act(self.conv(x)))
         return self.fc(z.view(z.size(0), -1))
 
-ds = torchvision.datasets.MNIST(root="./data", train=True, download=True, transform=T.ToTensor())
+
+ds = torchvision.datasets.MNIST(
+    root="./data", train=True, download=True, transform=T.ToTensor()
+)
 loader = torch.utils.data.DataLoader(ds, batch_size=64, shuffle=True)
 
 model = SmallCNN().to(device)
 opt = torch.optim.SGD(model.parameters(), lr=0.01)
+
 
 def train_one_rule(rule: str, params=None, max_batches=4):
     print(f"\n[Training] Jamming rule: {rule} params={params or {}} (few batches)")
@@ -47,6 +54,7 @@ def train_one_rule(rule: str, params=None, max_batches=4):
             if bi >= max_batches:
                 break
     print(f"avg_loss={total_loss/total:.4f} | acc={correct/total:.3f}")
+
 
 train_one_rule("full_jam")
 train_one_rule("positive_jam")

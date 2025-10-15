@@ -1,11 +1,13 @@
 import torch
 import freegrad
 
+
 def test_identity_rule_passthrough():
     fn = freegrad.get("d(Linear)")
     g = torch.tensor([1.0, -2.0, 3.0])
     out = fn(None, g, None)
     assert torch.allclose(out, g)
+
 
 def test_heaviside_masking():
     fn = freegrad.get("d(ReLU)")

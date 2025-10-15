@@ -2,6 +2,7 @@
 Experiment 2 (Paper): MLP on DIGITS
 Settings from Table 3 (p. 12): BS=64, LR=0.05
 """
+
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
@@ -23,23 +24,28 @@ print(f"DIGITS => train: {Xtr.shape[0]}, test: {Xte.shape[0]}, input-dim: {X.sha
 bs, lr, epochs = 64, 0.05, 10
 train_loader = DataLoader(TensorDataset(Xtr, ytr), batch_size=bs, shuffle=True)
 
+
 class MLP(nn.Module):
     def __init__(self, h=64, forward="Logistic"):
         super().__init__()
         self.fc1 = nn.Linear(64, h)
         self.act1 = Activation(forward)
         self.fc2 = nn.Linear(h, n_classes)
+
     def forward(self, x):
         return self.fc2(self.act1(self.fc1(x)))
+
 
 def accuracy(model, X, Y):
     with torch.no_grad():
         logits = model(X)
         return float((logits.argmax(dim=1) == Y.argmax(dim=1)).float().mean())
 
+
 def train_epoch(model, opt, loader):
     model.train()
-    running_loss = 0.0; total = 0
+    running_loss = 0.0
+    total = 0
     for xb, yb in loader:
         opt.zero_grad()
         logits = model(xb)
@@ -48,28 +54,33 @@ def train_epoch(model, opt, loader):
         opt.step()
         running_loss += float(loss.item()) * yb.size(0)
         total += yb.size(0)
-    return running_loss/total
+    return running_loss / total
+
 
 # TIED
 mlp = MLP(h=64, forward="Logistic")
 opt = torch.optim.SGD(mlp.parameters(), lr=lr)
 print("\n[Training] TIED (Logistic / d(Logistic)) with BS=64, LR=0.05")
-for ep in range(1, epochs+1):
+for ep in range(1, epochs + 1):
     loss = train_epoch(mlp, opt, train_loader)
     acc_tr = accuracy(mlp, Xtr, ytr)
     acc_te = accuracy(mlp, Xte, yte)
-    print(f"epoch {ep:02d} | loss={loss:.4f} | acc_tr={acc_tr:.3f} | acc_te={acc_te:.3f}")
+    print(
+        f"epoch {ep:02d} | loss={loss:.4f} | acc_tr={acc_tr:.3f} | acc_te={acc_te:.3f}"
+    )
 
 # UNTIED
 mlp2 = MLP(h=64, forward="Logistic")
 opt2 = torch.optim.SGD(mlp2.parameters(), lr=lr)
 print("\n[Training] UNTIED (Logistic / 1) with BS=64, LR=0.05")
 with fg.use(rule="d(Linear)", scope="activations"):
-    for ep in range(1, epochs+1):
+    for ep in range(1, epochs + 1):
         loss = train_epoch(mlp2, opt2, train_loader)
         acc_tr = accuracy(mlp2, Xtr, ytr)
         acc_te = accuracy(mlp2, Xte, yte)
-        print(f"epoch {ep:02d} | loss={loss:.4f} | acc_tr={acc_tr:.3f} | acc_te={acc_te:.3f}")
+        print(
+            f"epoch {ep:02d} | loss={loss:.4f} | acc_tr={acc_tr:.3f} | acc_te={acc_te:.3f}"
+        )
 
 # Inference demo
 x0 = Xte[0].unsqueeze(0)

@@ -12,6 +12,7 @@ FreeGrad – SUC with Uniform-over-Hamming-Weight (UHW)
 - Train/Test split: 80/20
 - Defaults: BS=32, LR=0.1, EPOCHS=30, d=10, τ=0.5
 """
+
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
@@ -77,8 +78,10 @@ idx_test = perm[cut:]
 X_train, y_train = X[idx_train], y[idx_train]
 X_test, y_test = X[idx_test], y[idx_test]
 
-print(f"Dataset => total: {N} | train: {len(idx_train)} | test: {len(idx_test)} | D: {D} | "
-      f"τ={TAU} | pos-ratio train: {y_train.mean().item():.2f} | test: {y_test.mean().item():.2f}")
+print(
+    f"Dataset => total: {N} | train: {len(idx_train)} | test: {len(idx_test)} | D: {D} | "
+    f"τ={TAU} | pos-ratio train: {y_train.mean().item():.2f} | test: {y_test.mean().item():.2f}"
+)
 
 train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=BS, shuffle=True)
 test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=BS, shuffle=False)
@@ -125,13 +128,19 @@ def train_model(model, train_loader, test_loader, lr=LR, epochs=EPOCHS, untied=F
     # Untied = apply rule "d(Linear)" to activations (Logistic / 1)
     ctx = fg.use(rule="d(Linear)", scope="activations") if untied else nullcontext()
 
-    print(f"\n[Training] {'UNTIED (Logistic / 1)' if untied else 'TIED (Logistic / d(Logistic))'} "
-          f"BS={BS}, LR={lr}, EPOCHS={epochs}")
+    print(
+        f"\n[Training] {'UNTIED (Logistic / 1)' if untied else 'TIED (Logistic / d(Logistic))'} "
+        f"BS={BS}, LR={lr}, EPOCHS={epochs}"
+    )
 
     for ep in range(1, epochs + 1):
         tr_loss, tr_acc = run_epoch(model, train_loader, opt=opt, rule_ctx=ctx)
-        te_loss, te_acc = run_epoch(model, test_loader, opt=None, rule_ctx=nullcontext())
-        print(f"epoch {ep:02d} | train loss={tr_loss:.4f} acc={tr_acc:.3f} | test loss={te_loss:.4f} acc={te_acc:.3f}")
+        te_loss, te_acc = run_epoch(
+            model, test_loader, opt=None, rule_ctx=nullcontext()
+        )
+        print(
+            f"epoch {ep:02d} | train loss={tr_loss:.4f} acc={tr_acc:.3f} | test loss={te_loss:.4f} acc={te_acc:.3f}"
+        )
 
     return model
 
@@ -151,4 +160,6 @@ with torch.no_grad():
     p_tied = tied_model(sample).item()
     p_untied = untied_model(sample).item()
 
-print(f"\n[Inference] sample#0 | label={label} | tied_prob={p_tied:.3f} | untied_prob={p_untied:.3f}")
+print(
+    f"\n[Inference] sample#0 | label={label} | tied_prob={p_tied:.3f} | untied_prob={p_untied:.3f}"
+)

@@ -4,7 +4,7 @@ from freegrad.functional import vjp, jvp
 
 def test_vjp_matches_autograd_for_square_sum():
     def f(x):
-        return (x ** 2).sum()
+        return (x**2).sum()
 
     x = torch.randn(5, requires_grad=False)
     y, vjp_fn = vjp(f, x)
@@ -22,8 +22,8 @@ def test_jvp_finite_difference_for_square():
     v = torch.randn(5, dtype=torch.float64)
 
     def f(z):
-        return (z ** 2).sum()
+        return (z**2).sum()
 
-    jvp_fd = jvp(f, x, v)             # inherits dtype from x,v
+    jvp_fd = jvp(f, x, v)  # inherits dtype from x,v
     exact = (2 * x * v).sum()
     assert torch.allclose(jvp_fd, exact, atol=1e-3)

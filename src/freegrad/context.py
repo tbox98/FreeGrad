@@ -10,13 +10,17 @@ _current_scope = contextvars.ContextVar("freegrad_scope", default=("all",))
 
 ScopeLike = Union[str, Iterable[str]]
 
+
 class use:
     """Context manager per applicare una regola di gradiente.
     - rule: nome o callable registrata
     - params: dict di parametri passati alla regola
     - scope: "all", "activations", "params" oppure una tupla di questi
     """
-    def __init__(self, rule, params: Optional[Dict[str, Any]] = None, scope: ScopeLike = "all"):
+
+    def __init__(
+        self, rule, params: Optional[Dict[str, Any]] = None, scope: ScopeLike = "all"
+    ):
         self.rule = rule
         self.params = params or {}
         if isinstance(scope, str):
@@ -35,7 +39,9 @@ class use:
         _current_params.reset(self._tok_params)
         _current_scope.reset(self._tok_scope)
 
+
 # Helpers interni per leggere il contesto
+
 
 def _ctx_get():
     return _current_rule.get(), _current_params.get(), _current_scope.get()
