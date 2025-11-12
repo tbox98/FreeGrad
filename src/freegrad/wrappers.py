@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from typing import Callable, Dict, Any, Tuple
 
 import torch
 import torch.nn as nn
@@ -7,19 +7,19 @@ import torch.nn.functional as F
 from .context import _ctx_get
 
 
-def _relu6(x):
+def _relu6(x: torch.Tensor) -> torch.Tensor:
     return torch.clamp(x, 0.0, 6.0)
 
 
-def _heaviside(x):
+def _heaviside(x: torch.Tensor) -> torch.Tensor:
     return torch.heaviside(x, torch.tensor(0.0, dtype=x.dtype, device=x.device))
 
 
-def _leaky_relu(x):
+def _leaky_relu(x: torch.Tensor) -> torch.Tensor:
     return F.leaky_relu(x, negative_slope=0.01)
 
 
-def _elu(x):
+def _elu(x: torch.Tensor) -> torch.Tensor:
     return F.elu(x, alpha=1.0)
 
 
@@ -40,13 +40,14 @@ _FWD_MAP: Dict[str, Callable] = {
 
 class _FreeGradActivationFn(torch.autograd.Function):
     @staticmethod
-    def forward(ctx, x, fwd_name):
+    def forward(ctx: Any, x: torch.Tensor, fwd_name: str) -> torch.Tensor:
         ctx.save_for_backward(x)
         ctx.fwd_name = fwd_name
         return _FWD_MAP[fwd_name](x)
 
+    # noinspection PyMethodOverriding
     @staticmethod
-    def backward(ctx, grad_out):
+    def backward(ctx: Any, grad_out: torch.Tensor) -> Tuple[torch.Tensor, None]:
         (x,) = ctx.saved_tensors
         rule, params, scope = _ctx_get()
         # Safety fallback: if no rule/scope, compute true derivative via autograd.

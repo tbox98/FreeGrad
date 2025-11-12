@@ -1,10 +1,12 @@
+from typing import Any
+
 import torch
 
 from ..registry import register
 
 
 @register("full_jam")
-def full_jam(ctx, grad_out: torch.Tensor, input, **_):
+def full_jam(ctx: Any, grad_out: torch.Tensor, input: Any, **_: Any) -> torch.Tensor:
     """Applies "gradient jamming" by multiplying with uniform random noise.
 
     The gradient is scaled by `U(0, 1)` noise.
@@ -21,7 +23,9 @@ def full_jam(ctx, grad_out: torch.Tensor, input, **_):
 
 
 @register("positive_jam")
-def positive_jam(ctx, grad_out: torch.Tensor, input: torch.Tensor, **_):
+def positive_jam(
+    ctx: Any, grad_out: torch.Tensor, input: torch.Tensor, **_: Any
+) -> torch.Tensor:
     """Applies gradient jamming only to elements where the input was positive.
 
     The gradient is scaled by `U(0, 1)` where `input >= 0`, and is
@@ -46,13 +50,13 @@ def positive_jam(ctx, grad_out: torch.Tensor, input: torch.Tensor, **_):
 
 @register("rectangular_jam")
 def rectangular_jam(
-    ctx,
+    ctx: Any,
     grad_out: torch.Tensor,
     input: torch.Tensor,
     a: float = -5.0,
     b: float = 5.0,
-    **_,
-):
+    **_: Any,
+) -> torch.Tensor:
     """Applies gradient jamming only within a rectangular window.
 
     The gradient is scaled by `U(0, 1)` where `a <= input <= b`,

@@ -1,4 +1,5 @@
-from typing import Callable, Tuple
+from types import TracebackType
+from typing import Any, Callable, Dict, Optional, Tuple, Type
 
 import torch
 
@@ -7,7 +8,12 @@ from .context import use
 
 @torch.no_grad()
 def jvp(
-    f: Callable, x: torch.Tensor, v: torch.Tensor, *, rule=None, params=None
+    f: Callable,
+    x: torch.Tensor,
+    v: torch.Tensor,
+    *,
+    rule: Any = None,
+    params: Optional[Dict[str, Any]] = None,
 ) -> torch.Tensor:
     """Computes an alternative Jacobian-vector product: J_f(x) @ v.
 
@@ -42,15 +48,24 @@ class nullcontext:
     fallback in `jvp` and `vjp` when no `rule` is provided.
     """
 
-    def __enter__(self):
+    def __enter__(self) -> "nullcontext":
         return self
 
-    def __exit__(self, *exc):
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc: Optional[BaseException],
+        tb: Optional[TracebackType],
+    ) -> bool:
         return False
 
 
 def vjp(
-    f: Callable, x: torch.Tensor, *, rule=None, params=None
+    f: Callable,
+    x: torch.Tensor,
+    *,
+    rule: Any = None,
+    params: Optional[Dict[str, Any]] = None,
 ) -> Tuple[torch.Tensor, Callable[[torch.Tensor], torch.Tensor]]:
     """Computes an alternative vector-Jacobian product using the freegrad context.
 

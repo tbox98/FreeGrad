@@ -1,5 +1,6 @@
 import contextvars
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Union
+from types import TracebackType
+from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
 
 from .registry import get
 
@@ -42,18 +43,24 @@ class use:
         self.scope = tuple(scope)
         self._tok_rule = self._tok_params = self._tok_scope = None
 
-    def __enter__(self):
+    def __enter__(self) -> "use":
         self._tok_rule = _current_rule.set(get(self.rule))
         self._tok_params = _current_params.set(self.params)
         self._tok_scope = _current_scope.set(self.scope)
         return self
 
-    def __exit__(self, exc_type, exc, tb):
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc: Optional[BaseException],
+        tb: Optional[TracebackType],
+    ) -> bool:
         _current_rule.reset(self._tok_rule)
         _current_params.reset(self._tok_params)
         _current_scope.reset(self._tok_scope)
+        return False  # Return False to not suppress exceptions
 
 
 # Internal helper used to read the context
-def _ctx_get():
+def _ctx_get() -> Tuple[Optional[Callable], Dict[str, Any], Tuple[str, ...]]:
     return _current_rule.get(), _current_params.get(), _current_scope.get()

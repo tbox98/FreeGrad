@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 import torch
 
@@ -6,7 +6,9 @@ from ..registry import register
 
 
 @register("d(ReLU)")
-def heaviside(ctx, grad_out: torch.Tensor, input: Optional[torch.Tensor], **_):
+def heaviside(
+    ctx: Any, grad_out: torch.Tensor, input: Optional[torch.Tensor], **_: Any
+) -> torch.Tensor:
     """Applies the derivative of ReLU (a Heaviside step function).
 
     This is the standard surrogate gradient for a ReLU activation:
@@ -28,7 +30,7 @@ def heaviside(ctx, grad_out: torch.Tensor, input: Optional[torch.Tensor], **_):
 
 
 @register("d(Linear)")
-def identity(ctx, grad_out: torch.Tensor, input, **_):
+def identity(ctx: Any, grad_out: torch.Tensor, input: Any, **_: Any) -> torch.Tensor:
     """Applies the identity transform (derivative of a linear function).
 
     This rule simply passes the gradient through unmodified.
@@ -46,13 +48,13 @@ def identity(ctx, grad_out: torch.Tensor, input, **_):
 
 @register("rectangular")
 def rectangular(
-    ctx,
+    ctx: Any,
     grad_out: torch.Tensor,
     input: torch.Tensor,
     a: float = -0.5,
     b: float = 0.5,
-    **_,
-):
+    **_: Any,
+) -> torch.Tensor:
     """Applies a rectangular surrogate gradient.
 
     The gradient is passed through (multiplied by 1) only where the
@@ -77,8 +79,8 @@ def rectangular(
 
 @register("triangular")
 def triangular(
-    ctx, grad_out: torch.Tensor, input: torch.Tensor, width: float = 1.0, **_
-):
+    ctx: Any, grad_out: torch.Tensor, input: torch.Tensor, width: float = 1.0, **_: Any
+) -> torch.Tensor:
     """Applies a triangular surrogate gradient.
 
     The gradient is scaled by a factor that peaks at 1.0 (at input=0)
@@ -99,7 +101,9 @@ def triangular(
 
 
 @register("scale")
-def scale(ctx, grad_out: torch.Tensor, input, s: float = 1.0, **_):
+def scale(
+    ctx: Any, grad_out: torch.Tensor, input: Any, s: float = 1.0, **_: Any
+) -> torch.Tensor:
     """Scales the gradient by a constant factor `s`.
 
     Args:
@@ -116,8 +120,13 @@ def scale(ctx, grad_out: torch.Tensor, input, s: float = 1.0, **_):
 
 @register("clip_norm")
 def clip_norm(
-    ctx, grad_out: torch.Tensor, input, max_norm: float = 1.0, eps: float = 1e-12, **_
-):
+    ctx: Any,
+    grad_out: torch.Tensor,
+    input: Any,
+    max_norm: float = 1.0,
+    eps: float = 1e-12,
+    **_: Any,
+) -> torch.Tensor:
     """Clips the L2 norm of the gradient tensor.
 
     If the total L2 norm of `grad_out` exceeds `max_norm`, the
@@ -141,7 +150,9 @@ def clip_norm(
 
 
 @register("noise")
-def noise(ctx, grad_out: torch.Tensor, input, sigma: float = 0.1, **_):
+def noise(
+    ctx: Any, grad_out: torch.Tensor, input: Any, sigma: float = 0.1, **_: Any
+) -> torch.Tensor:
     """Adds zero-mean Gaussian noise to the gradient.
 
     Noise is sampled from `N(0, sigma^2)`.
@@ -161,8 +172,13 @@ def noise(ctx, grad_out: torch.Tensor, input, sigma: float = 0.1, **_):
 
 @register("centralize")
 def centralize(
-    ctx, grad_out: torch.Tensor, input, dim: int = -1, keepdim: bool = True, **_
-):
+    ctx: Any,
+    grad_out: torch.Tensor,
+    input: Any,
+    dim: int = -1,
+    keepdim: bool = True,
+    **_: Any,
+) -> torch.Tensor:
     """Centralizes the gradient by subtracting its mean along a dimension.
 
     This makes the gradient tensor have a mean of zero along the

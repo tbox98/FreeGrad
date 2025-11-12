@@ -1,4 +1,6 @@
-from typing import Callable, Dict, Union
+from typing import Any, Callable, Dict, Optional, Union
+
+import torch
 
 _RULES: Dict[str, Callable] = {}
 
@@ -40,7 +42,7 @@ def get(rule: Union[str, Callable]) -> Callable:
         raise RuleError(f"Rule not found: {rule}") from e
 
 
-def compose(*rules: Union[str, Callable]):
+def compose(*rules: Union[str, Callable]) -> Callable[..., torch.Tensor]:
     """Compose multiple gradient rules in series.
 
     Example:
@@ -49,7 +51,12 @@ def compose(*rules: Union[str, Callable]):
     """
     fns = [get(r) for r in rules]
 
-    def composed(ctx, grad_out, input, **params):
+    def composed(
+        ctx: Any,
+        grad_out: torch.Tensor,
+        input: Optional[torch.Tensor],
+        **params: Any,
+    ) -> torch.Tensor:
         g = grad_out
         for fn in fns:
             g = fn(ctx, g, input, **params)

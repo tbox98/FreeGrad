@@ -7,7 +7,7 @@ class _ParamGradHook:
     def __init__(self):
         pass
 
-    def __call__(self, grad: torch.Tensor):
+    def __call__(self, grad: torch.Tensor) -> torch.Tensor:
         # Directly transform the parameter gradient if the context requires it
         rule, params, scope = _ctx_get()
         if (rule is None) or ("params" not in scope and "all" not in scope):
