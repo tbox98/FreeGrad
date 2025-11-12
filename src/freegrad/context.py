@@ -1,11 +1,17 @@
 import contextvars
-from typing import Any, Dict, Iterable, Optional, Union
+from typing import Any, Dict, Iterable, Optional, Union, Callable, Tuple
 
 from .registry import get
 
-_current_rule = contextvars.ContextVar("freegrad_rule", default=None)
-_current_params = contextvars.ContextVar("freegrad_params", default={})
-_current_scope = contextvars.ContextVar("freegrad_scope", default=("all",))
+_current_rule: contextvars.ContextVar[Optional[Callable]] = contextvars.ContextVar(
+    "freegrad_rule", default=None
+)
+_current_params: contextvars.ContextVar[Dict[str, Any]] = contextvars.ContextVar(
+    "freegrad_params", default={}
+)
+_current_scope: contextvars.ContextVar[Tuple[str, ...]] = contextvars.ContextVar(
+    "freegrad_scope", default=("all",)
+)
 
 ScopeLike = Union[str, Iterable[str]]
 
