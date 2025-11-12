@@ -1,5 +1,5 @@
 import contextvars
-from typing import Any, Dict, Iterable, Optional, Union, Callable, Tuple
+from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Union
 
 from .registry import get
 
