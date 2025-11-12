@@ -30,9 +30,12 @@ class use:
     """
 
     def __init__(
-        self, rule, params: Optional[Dict[str, Any]] = None, scope: ScopeLike = "all"
+        self,
+        rule: Union[str, Callable],
+        params: Optional[Dict[str, Any]] = None,
+        scope: ScopeLike = "all",
     ):
-        self.rule = rule
+        self.rule: Union[str, Callable] = rule
         self.params = params or {}
         if isinstance(scope, str):
             scope = (scope,)
