@@ -1,4 +1,5 @@
 import contextvars
+from contextvars import Token
 from types import TracebackType
 from typing import Any, Callable, Dict, Iterable, Literal, Optional, Tuple, Type, Union
 
@@ -41,7 +42,9 @@ class use:
         if isinstance(scope, str):
             scope = (scope,)
         self.scope = tuple(scope)
-        self._tok_rule = self._tok_params = self._tok_scope = None
+        self._tok_rule: Optional[Token] = None
+        self._tok_params: Optional[Token] = None
+        self._tok_scope: Optional[Token] = None
 
     def __enter__(self) -> "use":
         self._tok_rule = _current_rule.set(get(self.rule))
@@ -55,9 +58,12 @@ class use:
         exc: Optional[BaseException],
         tb: Optional[TracebackType],
     ) -> Literal[False]:
-        _current_rule.reset(self._tok_rule)
-        _current_params.reset(self._tok_params)
-        _current_scope.reset(self._tok_scope)
+        if self._tok_rule:
+            _current_rule.reset(self._tok_rule)
+        if self._tok_params:
+            _current_params.reset(self._tok_params)
+        if self._tok_scope:
+            _current_scope.reset(self._tok_scope)
         return False  # Return False to not suppress exceptions
 
 
