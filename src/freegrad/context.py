@@ -1,6 +1,6 @@
 import contextvars
 from types import TracebackType
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, Iterable, Literal, Optional, Tuple, Type, Union
 
 from .registry import get
 
@@ -37,7 +37,7 @@ class use:
         scope: ScopeLike = "all",
     ):
         self.rule: Union[str, Callable] = rule
-        self.params = params or {}
+        self.params: Dict[str, Any] = params or {}
         if isinstance(scope, str):
             scope = (scope,)
         self.scope = tuple(scope)
@@ -54,7 +54,7 @@ class use:
         exc_type: Optional[Type[BaseException]],
         exc: Optional[BaseException],
         tb: Optional[TracebackType],
-    ) -> bool:
+    ) -> Literal[False]:
         _current_rule.reset(self._tok_rule)
         _current_params.reset(self._tok_params)
         _current_scope.reset(self._tok_scope)

@@ -1,5 +1,5 @@
 from types import TracebackType
-from typing import Any, Callable, Dict, Optional, Tuple, Type
+from typing import Any, Callable, Dict, Literal, Optional, Tuple, Type
 
 import torch
 
@@ -56,7 +56,7 @@ class nullcontext:
         exc_type: Optional[Type[BaseException]],
         exc: Optional[BaseException],
         tb: Optional[TracebackType],
-    ) -> bool:
+    ) -> Literal[False]:
         return False
 
 
