@@ -1,4 +1,3 @@
-# freegrad/wrappers.py
 from typing import Callable, Dict
 
 import torch

@@ -1,5 +1,3 @@
-# `freegrad/functional.py`
-
 from typing import Callable, Tuple
 
 import torch
@@ -11,9 +9,23 @@ from .context import use
 def jvp(
     f: Callable, x: torch.Tensor, v: torch.Tensor, *, rule=None, params=None
 ) -> torch.Tensor:
-    """Jacobian-vector product alternativo: J_f(x) @ v.
-    Implementazione naive via differenze simmetriche per indipendenza dal backward classico.
-    Per casi seri, preferisci autograd JVP quando disponibile.
+    """Computes an alternative Jacobian-vector product: J_f(x) @ v.
+
+    This is a naive implementation using symmetric differences, intended
+    for independence from the standard backward pass. For performance-critical
+    use, prefer PyTorch's built-in autograd JVP when available.
+
+    Args:
+        f (Callable): The function to differentiate.
+        x (torch.Tensor): The point at which to evaluate the JVP.
+        v (torch.Tensor): The vector for the product.
+        rule (Optional[Any], optional): A freegrad rule to apply during the
+            function's forward evaluations. Defaults to None.
+        params (Optional[Dict], optional): Parameters for the freegrad rule.
+            Defaults to None.
+
+    Returns:
+        torch.Tensor: The resulting Jacobian-vector product.
     """
     eps = 1e-3
     with use(rule=rule, params=params or {}, scope=("all",)) if rule else nullcontext():
@@ -23,6 +35,13 @@ def jvp(
 
 
 class nullcontext:
+    """A no-op context manager.
+
+    This class provides an empty `__enter__` and `__exit__` method,
+    making it a valid, do-nothing context manager. It is used as a
+    fallback in `jvp` and `vjp` when no `rule` is provided.
+    """
+
     def __enter__(self):
         return self
 
@@ -33,8 +52,23 @@ class nullcontext:
 def vjp(
     f: Callable, x: torch.Tensor, *, rule=None, params=None
 ) -> Tuple[torch.Tensor, Callable[[torch.Tensor], torch.Tensor]]:
-    """Vector-Jacobian product alternativo via contesto freegrad.
-    Restituisce (y, vjp_fn) dove vjp_fn(v) = v^T J_f(x).
+    """Computes an alternative vector-Jacobian product using the freegrad context.
+
+    Returns a (y, vjp_fn) tuple, where y = f(x) and vjp_fn is a
+    function that computes the VJP (v^T @ J_f(x)).
+
+    Args:
+        f (Callable): The function to differentiate.
+        x (torch.Tensor): The point at which to evaluate the VJP.
+        rule (Optional[Any], optional): A freegrad rule to apply during the
+            function's forward evaluation. Defaults to None.
+        params (Optional[Dict], optional): Parameters for the freegrad rule.
+            Defaults to None.
+
+    Returns:
+        Tuple[torch.Tensor, Callable[[torch.Tensor], torch.Tensor]]: A tuple
+        (y, vjp_fn), where y is the forward pass result f(x) and vjp_fn
+        is the backward function.
     """
     with use(rule=rule, params=params or {}, scope=("all",)) if rule else nullcontext():
         x = x.detach().requires_grad_(True)

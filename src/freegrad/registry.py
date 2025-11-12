@@ -1,12 +1,15 @@
-# `freegrad/registry.py`
-
 from typing import Callable, Dict, Union
 
 _RULES: Dict[str, Callable] = {}
 
 
 class RuleError(KeyError):
-    """Custom error for invalid or duplicate gradient rules."""
+    """Custom error for gradient rule registration or retrieval failures.
+
+    This exception is raised if a rule is registered with a name that
+    already exists, or if `get()` is called with a name that is
+    not in the registry.
+    """
 
     pass
 

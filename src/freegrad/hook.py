@@ -17,8 +17,19 @@ class _ParamGradHook:
 
 
 def attach_param_hooks(model: torch.nn.Module) -> None:
-    """Attach a hook to ALL parameters of the model.
-    Use with caution: in most cases scope="activations" is sufficient.
+    """Attaches the gradient hook to all parameters of a model.
+
+    This iterates over all `model.parameters()` and registers a hook
+    that will apply the gradient rule active in the context, provided
+    the scope includes "params" or "all".
+
+    Warning:
+        Use with caution. In most cases, modifying activation gradients
+        (scope="activations") is sufficient and more common. This function
+        is for rules that must run on `nn.Parameter` gradients directly.
+
+    Args:
+        model (torch.nn.Module): The model to attach hooks to.
     """
     hook = _ParamGradHook()
     for p in model.parameters():

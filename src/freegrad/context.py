@@ -1,5 +1,3 @@
-# `freegrad/context.py`
-
 import contextvars
 from typing import Any, Dict, Iterable, Optional, Union
 
@@ -13,10 +11,16 @@ ScopeLike = Union[str, Iterable[str]]
 
 
 class use:
-    """Context manager per applicare una regola di gradiente.
-    - rule: nome o callable registrata
-    - params: dict di parametri passati alla regola
-    - scope: "all", "activations", "params" oppure una tupla di questi
+    """Context manager to apply a custom gradient rule.
+
+    Args:
+        rule (Union[str, Callable]): The name of a registered rule or a
+            callable.
+        params (Optional[Dict[str, Any]], optional): A dict of parameters
+            to pass to the rule's `**params`. Defaults to None.
+        scope (ScopeLike, optional): One of "all", "activations", "params",
+            or a tuple of these to specify where the rule applies.
+            Defaults to "all".
     """
 
     def __init__(
@@ -41,8 +45,6 @@ class use:
         _current_scope.reset(self._tok_scope)
 
 
-# Helpers interni per leggere il contesto
-
-
+# Internal helper used to read the context
 def _ctx_get():
     return _current_rule.get(), _current_params.get(), _current_scope.get()
