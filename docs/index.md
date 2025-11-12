@@ -46,10 +46,9 @@ print(x.grad)
 ---
 
 ## 🤝 Contributing
-Contributions are very welcome! Please see [CONTRIBUTING.md](https://github.com/tbox98/BackProp/blob/main/CONTRIBUTING.md)  
-and our [Code of Conduct](https://github.com/tbox98/BackProp/blob/main/CODE_OF_CONDUCT.md).  
+Contributions are very welcome! Please see [CONTRIBUTING.md](https://github.com/tbox98/FreeGrad/blob/main/CONTRIBUTING.md) and our [Code of Conduct](https://github.com/tbox98/FreeGrad/blob/main/CODE_OF_CONDUCT.md).  
 
 ---
 
 ## 📄 License
-Released under the [MIT License](https://github.com/tbox98/BackProp/blob/main/LICENSE).
+Released under the [MIT License](https://github.com/tbox98/FreeGrad/blob/main/LICENSE).

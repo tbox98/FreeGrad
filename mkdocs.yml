@@ -1,6 +1,6 @@
 site_name: freegrad
-site_url: https://tbox98.github.io/BackProp/
-repo_url: https://github.com/tbox98/BackProp
+site_url: https://tbox98.github.io/FreeGrad/
+repo_url: https://github.com/tbox98/FreeGrad
 
 theme:
   name: material
