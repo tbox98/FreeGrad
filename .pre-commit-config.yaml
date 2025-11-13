@@ -1,27 +1,27 @@
-# .pre-commit-config.yaml
 repos:
   - repo: https://github.com/psf/black
-    rev: 25.11.0
+    rev: 24.3.0
     hooks:
       - id: black
-        language_version: default
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.4
+    rev: v0.3.4
     hooks:
       - id: ruff
-        name: "Ruff (Lint + Import Sorting)"
         args: [--fix, --exit-non-zero-on-fix]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
+  - repo: local
     hooks:
       - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
         args: [src]
-        # stages: [manual, push]
+        pass_filenames: false
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v4.5.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
