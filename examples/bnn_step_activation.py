@@ -116,9 +116,7 @@ def run_epoch(loader, is_train=True):
 # "Step/1" configuration from Table 13
 # Forward = Heaviside (Step)
 # Backward = 1 (Constant) -> rule="d(Linear)"
-print(
-    "\n[Training] BNN SUC: Heaviside Forward / Constant Backward (Table 13 'Step/1')"
-)
+print("\n[Training] BNN SUC: Heaviside Forward / Constant Backward (Table 13 'Step/1')")
 print(f"Settings: BS={BATCH_SIZE}, LR={LR}")
 
 with fg.use(rule="d(Linear)", scope="activations"):
