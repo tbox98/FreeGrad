@@ -24,8 +24,8 @@ The function must return the new gradient, $dL/dx$.
 Here is a rule that applies a threshold and adds noise.
 
 ```python
-import torch
 import freegrad as xg
+import torch
 
 @xg.register("noisy_threshold")
 def noisy_threshold(ctx, grad_out, input, t: float = 0.0, sigma: float = 0.1):
@@ -42,8 +42,15 @@ def noisy_threshold(ctx, grad_out, input, t: float = 0.0, sigma: float = 0.1):
 Use it:
 
 ```python
+import freegrad as xg
+from freegrad.wrappers import Activation
+import torch
+
+x = torch.randn(5, requires_grad=True)
 act = Activation("ReLU")
-with xg.use("noisy_threshold", params={"t":0.5, "sigma":0.05}):
+
+# Apply the custom rule
+with xg.use("noisy_threshold", params={"t": 0.5, "sigma": 0.05}):
     y = act(x).sum()
     y.backward()
 ```
@@ -56,6 +63,8 @@ You can create a new rule by composing existing rules in series using `xg.compos
 
 ```python
 import freegrad as xg
+from freegrad.wrappers import Activation
+import torch
 
 # Create a new rule that first clips, then adds noise
 clip_and_noise = xg.compose("clip_norm", "noise")
@@ -63,13 +72,14 @@ clip_and_noise = xg.compose("clip_norm", "noise")
 # You can register it (optional)
 xg.register("clip_then_noise")(clip_and_noise)
 
+# Example input and activation
+x = torch.randn(5, requires_grad=True)
+act = Activation("Linear")
+
 # Use it directly
-with xg.use(
-    clip_and_noise,
-    params={"max_norm": 1.0, "sigma": 0.01},
-    scope="all"
-):
-    loss.backward()
+with xg.use(clip_and_noise, params={"max_norm": 1.0, "sigma": 0.1}, scope="activations"):
+    y = act(x).sum()
+    y.backward()
 ```
 
 ---
