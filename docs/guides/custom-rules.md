@@ -34,7 +34,7 @@ def noisy_threshold(ctx, grad_out, input, t: float = 0.0, sigma: float = 0.1):
         mask = 1.0
     else:
         mask = (input >= t).to(grad_out.dtype)
-    
+
     noise = sigma * torch.randn_like(grad_out)
     return grad_out * mask + noise
 ````
@@ -65,8 +65,8 @@ xg.register("clip_then_noise")(clip_and_noise)
 
 # Use it directly
 with xg.use(
-    clip_and_noise, 
-    params={"max_norm": 1.0, "sigma": 0.01}, 
+    clip_and_noise,
+    params={"max_norm": 1.0, "sigma": 0.01},
     scope="all"
 ):
     loss.backward()
@@ -96,7 +96,7 @@ class SquareNoiseFn(torch.autograd.Function):
         # Custom backward: 2*x*grad_output + noise
         noise = ctx.sigma * torch.randn_like(x)
         grad_in = grad_output * (2*x) + noise
-        
+
         # Return grads for (x, sigma)
         return grad_in, None
 

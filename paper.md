@@ -44,7 +44,7 @@ bibliography: paper.bib
 
 Machine learning research often relies on backpropagation as implemented in
 PyTorch's **autograd**. While powerful, autograd enforces a strict symmetry
-between forward activations and their associated backward derivatives.  
+between forward activations and their associated backward derivatives.
 This coupling can limit experimentation with **alternative gradient rules**, which
 are relevant for studying optimization dynamics, robustness, and theoretical
 properties of neural networks.

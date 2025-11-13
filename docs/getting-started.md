@@ -99,5 +99,5 @@ The `xg.Activation` wrapper supports the following forward functions:
 
 ## Next Steps
 
-- [Selective gradient rules](guides/selective-rules.md)  
-- [Define your own custom rules](guides/custom-rules.md)  
+- [Selective gradient rules](guides/selective-rules.md)
+- [Define your own custom rules](guides/custom-rules.md)

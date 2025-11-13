@@ -5,12 +5,12 @@
 ---
 
 ## 🔥 Why freegrad?
-`freegrad` is a lightweight research framework that lets you **decouple forward and backward** in PyTorch.  
+`freegrad` is a lightweight research framework that lets you **decouple forward and backward** in PyTorch.
 It provides:
-- Custom **gradient rules** (e.g. noise, clipping, jamming)  
-- A clean **context manager** API for applying rules selectively  
-- Drop-in **activation wrappers** with alternative backward behavior  
-- Compatibility with vanilla **autograd** — nothing is patched  
+- Custom **gradient rules** (e.g. noise, clipping, jamming)
+- A clean **context manager** API for applying rules selectively
+- Drop-in **activation wrappers** with alternative backward behavior
+- Compatibility with vanilla **autograd** — nothing is patched
 
 ---
 
@@ -39,14 +39,14 @@ print(x.grad)
 
 ## 📖 Documentation
 
-- [Getting started](getting-started.md)  
-- [Selective gradient rules](guides/selective-rules.md)  
-- [Defining custom rules](guides/custom-rules.md)  
+- [Getting started](getting-started.md)
+- [Selective gradient rules](guides/selective-rules.md)
+- [Defining custom rules](guides/custom-rules.md)
 
 ---
 
 ## 🤝 Contributing
-Contributions are very welcome! Please see [CONTRIBUTING.md](https://github.com/tbox98/FreeGrad/blob/main/CONTRIBUTING.md) and our [Code of Conduct](https://github.com/tbox98/FreeGrad/blob/main/CODE_OF_CONDUCT.md).  
+Contributions are very welcome! Please see [CONTRIBUTING.md](../CONTRIBUTING.md) and our [Code of Conduct](../CODE_OF_CONDUCT.md).
 
 ---
 

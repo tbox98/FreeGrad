@@ -6,7 +6,7 @@ Thank you for your interest in contributing! We welcome pull requests from the c
 
 1. **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/freegrad.git](https://github.com/YOUR_USERNAME/freegrad.git)
+    git clone https://github.com/tbox98/FreeGrad.git
     cd freegrad
     ```
 
@@ -14,7 +14,7 @@ Thank you for your interest in contributing! We welcome pull requests from the c
 
     ```bash
     # Recommended: use conda or venv
-    # Replace with desired python version
+    # Replace with the desired python version
     conda create -n freegrad python=3.10
     conda activate freegrad
     ```
