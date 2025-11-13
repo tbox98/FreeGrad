@@ -22,7 +22,7 @@ Examples of unacceptable behavior include:
 Project maintainers are responsible for clarifying and enforcing our standards of acceptable behavior. They may remove, edit, or reject contributions that are not aligned with this Code of Conduct, and may ban temporarily or permanently any contributor for unacceptable behavior.
 
 ## Enforcement
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting **you@example.com**. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting **info@kebula.it**. All complaints will be reviewed and investigated promptly and fairly.
 
 All project maintainers are obligated to respect the privacy and security of the reporter of any incident.
 

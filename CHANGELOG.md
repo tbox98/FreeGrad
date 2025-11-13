@@ -13,4 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Built-in transforms: `d(ReLU)`, `d(Linear)`, `rectangular`, `triangular`, `scale`, `clip_norm`, `noise`, `centralize`.
 - Jamming transforms: `full_jam`, `positive_jam`, `rectangular_jam`.
 - Basic docs: README, CONTRIBUTING, LICENSE.
-- CI scaffold and developer tooling (pytest, black, isort, flake8, mypy, pre-commit).
+- CI scaffold and developer tooling (pytest, black, ruff, mypy, pre-commit).

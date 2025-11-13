@@ -10,10 +10,10 @@
 ---
 
 ## 🚀 Features
-- Register and compose custom **gradient rules** (backward transforms)  
-- Apply rules via a **context manager** to activations and/or params  
-- Lightweight wrappers for **activation layers**  
-- Works *alongside* standard **autograd** without patching PyTorch  
+- Register and compose custom **gradient rules** (backward transforms)
+- Apply rules via a **context manager** to activations and/or params
+- Lightweight wrappers for **activation layers**
+- Works *alongside* standard **autograd** without patching PyTorch
 
 ---
 
@@ -25,12 +25,9 @@ pip install freegrad
 
 # Development install (with testing, linting, docs, examples, etc.)
 pip install -e '.[dev]'
-
-# Examples only (minimal deps to run example scripts in examples/)
-pip install -e '.[examples]'
 ```
 
-> 💡 Note: If you’re using **zsh** (default on macOS), don’t forget the quotes around `.[dev]` or `.[examples]`.
+> 💡 Note: If you’re using **zsh** (default on macOS), don’t forget the quotes around `.[dev]`.
 
 ---
 
@@ -67,10 +64,10 @@ pytest tests/test_wrappers.py::test_activation_forward_relu -v
 
 The repository includes runnable scripts under [`examples/`](examples/) that replicate experiments from the paper.
 
-Install example dependencies (if not already included in dev):
+Install dev dependencies:
 
 ```bash
-pip install -e '.[examples]'
+pip install -e '.[dev]'
 ```
 
 Run an example:
@@ -115,6 +112,7 @@ This project includes a `Makefile` with useful commands:
 make
 
 # Build the JOSS-style paper PDF only
+# Requires pandoc >= 2.11 and xelatex installed on your system
 make pdf
 
 # Run the test suite with coverage
@@ -143,8 +141,8 @@ make bnn     # BNN with Step activation
 
 ## 🤝 Contributing
 
-Contributions are welcome!  
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) and follow our [Code of Conduct](CODE_OF_CONDUCT.md).  
+Contributions are welcome!
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
