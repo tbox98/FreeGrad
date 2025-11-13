@@ -117,7 +117,7 @@ def run_epoch(loader, is_train=True):
 # Forward = Heaviside (Step)
 # Backward = 1 (Constant) -> rule="d(Linear)"
 print(
-    f"\n[Training] BNN SUC: Heaviside Forward / Constant Backward (Table 13 'Step/1')"
+    "\n[Training] BNN SUC: Heaviside Forward / Constant Backward (Table 13 'Step/1')"
 )
 print(f"Settings: BS={BATCH_SIZE}, LR={LR}")
 

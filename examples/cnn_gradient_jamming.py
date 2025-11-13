@@ -80,10 +80,10 @@ test_loader = torch.utils.data.DataLoader(
 
 # --- 3. Training Routine ---
 def train_experiment(rule_name, rule_params=None):
-    print(f"\n========================================")
+    print("\n========================================")
     print(f"[Experiment] LeNet-5 with {rule_name} Gradient")
     print(f"Params: {rule_params or 'None'} | BS={BATCH_SIZE} | LR={LEARNING_RATE}")
-    print(f"========================================")
+    print("========================================")
 
     model = LeNet5(forward="ReLU").to(device)
     opt = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE)
