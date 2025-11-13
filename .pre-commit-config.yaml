@@ -1,18 +1,27 @@
+# .pre-commit-config.yaml
 repos:
   - repo: https://github.com/psf/black
-    rev: 24.3.0
+    rev: 25.11.0
     hooks:
       - id: black
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+        language_version: default
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.4
     hooks:
-      - id: isort
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
+      - id: ruff
+        name: "Ruff (Lint + Import Sorting)"
+        args: [--fix, --exit-non-zero-on-fix]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
     hooks:
-      - id: flake8
+      - id: mypy
+        args: [src]
+        # stages: [manual, push]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
