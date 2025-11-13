@@ -24,10 +24,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-          pip install -e .[dev]
-          # Ensure ruff/mypy/pytest are present (or keep them in your [dev] extra)
-          pip install ruff mypy pytest
+          python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e .[dev]
 
       - name: Black (format check)
         run: black --check .
