@@ -9,7 +9,7 @@ description = "A PyTorch extension for experimenting with alternative gradient f
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
-authors = [{ name = "Luigi Troiano", email = "info@kebula.it" }]
+authors = [{ name = "Luigi Troiano", email = "ltroiano@unisa.it" }, { name = "Gioele Ciaparrone", email = "gioele.ciaparrone@kebula.it" }]
 keywords = ["pytorch", "autograd", "gradients", "research"]
 classifiers = [
     "Programming Language :: Python :: 3",

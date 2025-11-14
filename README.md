@@ -142,7 +142,7 @@ make bnn     # BNN with Step activation
 ## 🤝 Contributing
 
 Contributions are welcome!
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
