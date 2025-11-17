@@ -51,6 +51,7 @@ class _FreeGradActivationFn(torch.autograd.Function):
 
         return _FWD_MAP[fwd_name](x)
 
+    # noinspection PyMethodOverriding
     @staticmethod
     def backward(ctx: Any, grad_out: torch.Tensor) -> Tuple[torch.Tensor, None]:
         (x,) = ctx.saved_tensors
@@ -62,7 +63,7 @@ class _FreeGradActivationFn(torch.autograd.Function):
 
         # If for some reason the snapshot is empty (shouldn't happen due to wrapper logic),
         # we can just return the standard gradient.
-        if rule is None:
+        if (rule is None) or ("activations" not in scope and "all" not in scope):
             # Use PyTorch autograd for standard derivative
             with torch.enable_grad():
                 x_req = x.detach().requires_grad_(True)
@@ -87,9 +88,8 @@ class Activation(nn.Module):
         self._name = forward
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        rule, params, scope = _ctx_get()
-        # TIED baseline: use raw op so PyTorch computes the true derivative
-        if (rule is None) or ("activations" not in scope and "all" not in scope):
-            return _FWD_MAP[self._name](x)
-        # UNTIED: intercept backward
+        # Always use _FreeGradActivationFn.
+        # The backward pass will correctly handle
+        # both standard autograd (if rule is None)
+        # and freegrad (if rule is active).
         return _FreeGradActivationFn.apply(x, self._name)
