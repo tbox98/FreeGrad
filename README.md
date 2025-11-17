@@ -1,6 +1,6 @@
 # FreeGrad
 
-> Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
+Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
 
 [![CI](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml)
 [![Tests](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml)
@@ -21,7 +21,7 @@
 ## 📦 Installation
 
 ```bash
-# Core package only (when published on PyPI)
+# Core package only (from PyPI)
 pip install freegrad
 
 # Development install (with testing, linting, docs, examples, etc.)
