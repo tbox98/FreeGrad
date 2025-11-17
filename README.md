@@ -3,6 +3,7 @@
 > Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
 
 [![CI](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml)
+[![Tests](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml)
 [![PyPI](https://img.shields.io/pypi/v/freegrad.svg)](https://pypi.org/project/freegrad/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://tbox98.github.io/FreeGrad/)
