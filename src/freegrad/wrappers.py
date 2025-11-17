@@ -43,13 +43,22 @@ class _FreeGradActivationFn(torch.autograd.Function):
     def forward(ctx: Any, x: torch.Tensor, fwd_name: str) -> torch.Tensor:
         ctx.save_for_backward(x)
         ctx.fwd_name = fwd_name
+
+        # Capture the context state NOW, while we are in the main thread
+        rule, params, scope = _ctx_get()
+        ctx.fg_state = (rule, params, scope)
+
         return _FWD_MAP[fwd_name](x)
 
     # noinspection PyMethodOverriding
     @staticmethod
     def backward(ctx: Any, grad_out: torch.Tensor) -> Tuple[torch.Tensor, None]:
         (x,) = ctx.saved_tensors
-        rule, params, scope = _ctx_get()
+
+        # Retrieve the state saved in forward, instead of checking contextvars
+        # This is because some backends perform backward in a separate thread, where contextvars are not visible
+        rule, params, scope = ctx.fg_state
+
         # Safety fallback: if no rule/scope, compute true derivative via autograd.
         if (rule is None) or ("activations" not in scope and "all" not in scope):
             with torch.enable_grad():
@@ -59,6 +68,7 @@ class _FreeGradActivationFn(torch.autograd.Function):
                     y, x_req, grad_out, retain_graph=False, create_graph=False
                 )
             return grad_in, None
+
         # Untied case: apply user rule
         grad_in = rule(None, grad_out, x, **(params or {}))
         return grad_in, None
