@@ -11,11 +11,12 @@ Settings from Table 6, 7, 8 & Section 4.8 (pp. 13-15):
         3. Rectangular-Jamming: U[0,1] if grad in [-5, 5], else 0.
 """
 
+import time
+
 import torch
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as T
-import time
 
 import freegrad as fg
 from freegrad.wrappers import Activation
