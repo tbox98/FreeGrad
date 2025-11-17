@@ -11,32 +11,36 @@
 }
 
 % --- CSL / citeproc support (Pandoc) ---
-% Hanging indent & spacing for references
+% Hanging indent & spacing for references (we keep lengths, but won't use hanging)
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\cslentryspacingunit}
-\setlength{\cslentryspacingunit}{\parskip}
+\setlength{\cslentryspacingunit}{0.5\baselineskip}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
 
 \newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry spacing
- {% don't indent paragraphs
+ {%
+  % no paragraph indentation
   \setlength{\parindent}{0pt}%
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-    \let\oldpar\par
-    \def\par{\hangindent=\cslhangindent\oldpar}%
-  \fi
-  % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}%
+  % no hanging indent at all: ignore #1
+  % fixed extra space between entries
+  \setlength{\parskip}{0.5\baselineskip}%
  }%
  {\par}
 
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{%
-  \parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+
+% Each reference block: just start a new line/paragraph
+\newcommand{\CSLBlock}[1]{#1\par}
+
+% Label (e.g. [1]) followed by a small space, no special indentation
+\newcommand{\CSLLeftMargin}[1]{#1\ }
+
+% Main reference text inline; normal line wrapping (no extra indent)
+\newcommand{\CSLRightInline}[1]{#1}
+
+% Indent helper (rarely used by pandoc, but keep it simple)
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 % --- Robust no-op for \citeproctext (emitted by citeproc) ---
