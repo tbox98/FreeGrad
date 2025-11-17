@@ -22,7 +22,7 @@ y_oh = torch.nn.functional.one_hot(y, n_classes).float()
 Xtr, Xte, ytr, yte = train_test_split(X, y_oh, test_size=0.2, random_state=0)
 print(f"DIGITS => train: {Xtr.shape[0]}, test: {Xte.shape[0]}, input-dim: {X.shape[1]}")
 
-bs, lr, epochs = 64, 0.05, 10
+bs, lr, epochs = 64, 0.05, 100
 train_loader = DataLoader(TensorDataset(Xtr, ytr), batch_size=bs, shuffle=True)
 
 
