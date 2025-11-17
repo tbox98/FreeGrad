@@ -22,7 +22,11 @@ RECT_A = -0.5
 RECT_B = 0.5
 
 torch.manual_seed(0)
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = torch.device(
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps" if torch.backends.mps.is_available() else "cpu"
+)
 print(f"Using device: {device}")
 
 

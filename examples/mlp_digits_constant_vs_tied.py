@@ -13,6 +13,12 @@ import freegrad as fg
 from freegrad.wrappers import Activation
 
 torch.manual_seed(0)
+device = torch.device(
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps" if torch.backends.mps.is_available() else "cpu"
+)
+print(f"Using device: {device}")
 
 digits = load_digits()
 X = torch.tensor(digits.data, dtype=torch.float32) / 16.0
