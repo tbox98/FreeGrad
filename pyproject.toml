@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "freegrad"
-version = "0.1.0"
+version = "1.0.0"
 description = "A PyTorch extension for experimenting with alternative gradient flows."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
-authors = [{ name = "Luigi Troiano", email = "ltroiano@unisa.it" }, { name = "Gioele Ciaparrone", email = "gioele.ciaparrone@kebula.it" }]
-keywords = ["pytorch", "autograd", "gradients", "research"]
+authors = [{ name = "Luigi Troiano", email = "ltroiano@unisa.it" }, { name = "Gioele Ciaparrone", email = "gioele.ciaparrone@kebula.it" }, { name = "Genny Tortora", email = "gtortora@unisa.it" }]
+keywords = ["pytorch", "autograd", "gradients"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
