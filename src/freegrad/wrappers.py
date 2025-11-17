@@ -44,32 +44,33 @@ class _FreeGradActivationFn(torch.autograd.Function):
         ctx.save_for_backward(x)
         ctx.fwd_name = fwd_name
 
-        # Capture the context state NOW, while we are in the main thread
+        # Snapshot: capture the rule active at this exact moment
+        # This runs in the main thread, so _ctx_get() is correct.
         rule, params, scope = _ctx_get()
         ctx.fg_state = (rule, params, scope)
 
         return _FWD_MAP[fwd_name](x)
 
-    # noinspection PyMethodOverriding
     @staticmethod
     def backward(ctx: Any, grad_out: torch.Tensor) -> Tuple[torch.Tensor, None]:
         (x,) = ctx.saved_tensors
 
-        # Retrieve the state saved in forward, instead of checking contextvars
-        # This is because some backends perform backward in a separate thread, where contextvars are not visible
+        # Ignore the current thread's context. Use the snapshot.
+        # This is needed to support CUDA backward passes, since they are usually run
+        # in a separate thread, which cannot see the original contextvars
         rule, params, scope = ctx.fg_state
 
-        # Safety fallback: if no rule/scope, compute true derivative via autograd.
-        if (rule is None) or ("activations" not in scope and "all" not in scope):
+        # If for some reason the snapshot is empty (shouldn't happen due to wrapper logic),
+        # we can just return the standard gradient.
+        if rule is None:
+            # Use PyTorch autograd for standard derivative
             with torch.enable_grad():
                 x_req = x.detach().requires_grad_(True)
                 y = _FWD_MAP[ctx.fwd_name](x_req)
-                (grad_in,) = torch.autograd.grad(
-                    y, x_req, grad_out, retain_graph=False, create_graph=False
-                )
+                (grad_in,) = torch.autograd.grad(y, x_req, grad_out)
             return grad_in, None
 
-        # Untied case: apply user rule
+        # Apply the captured rule
         grad_in = rule(None, grad_out, x, **(params or {}))
         return grad_in, None
 
