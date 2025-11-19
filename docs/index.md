@@ -1,6 +1,6 @@
 # freegrad
 
-> Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
+Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
 
 ---
 
