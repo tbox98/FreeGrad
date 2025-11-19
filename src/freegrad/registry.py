@@ -20,7 +20,7 @@ def register(name: str):
     """Decorator to register a gradient rule.
 
     Expected signature of the function:
-        fn(ctx, grad_out, input, **params) -> grad_in
+        fn(ctx, grad_out, tin, **params) -> grad_in
     """
 
     def deco(fn: Callable):
@@ -54,12 +54,12 @@ def compose(*rules: Union[str, Callable]) -> Callable[..., torch.Tensor]:
     def composed(
         ctx: Any,
         grad_out: torch.Tensor,
-        input: Optional[torch.Tensor],
+        tin: Optional[torch.Tensor],
         **params: Any,
     ) -> torch.Tensor:
         g = grad_out
         for fn in fns:
-            g = fn(ctx, g, input, **params)
+            g = fn(ctx, g, tin, **params)
         return g
 
     return composed

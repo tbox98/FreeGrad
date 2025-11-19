@@ -6,7 +6,7 @@ from freegrad.wrappers import Activation
 
 def test_context_applies_rule_to_activations_only():
     @freegrad.register("zero")
-    def zero_rule(ctx, grad_out, input, **_):
+    def zero_rule(ctx, grad_out, tin, **_):
         return torch.zeros_like(grad_out)
 
     x = torch.tensor([1.0, -2.0, 3.0], requires_grad=True)
@@ -25,7 +25,7 @@ def test_context_applies_rule_to_activations_only():
 
 def test_context_scope_excludes_activations():
     @freegrad.register("neg")
-    def neg_rule(ctx, grad_out, input, **_):
+    def neg_rule(ctx, grad_out, tin, **_):
         return -grad_out
 
     x = torch.tensor([2.0], requires_grad=True)

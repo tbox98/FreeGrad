@@ -7,30 +7,30 @@ from ..registry import register
 
 @register("d(ReLU)")
 def heaviside(
-    ctx: Any, grad_out: torch.Tensor, input: Optional[torch.Tensor], **_: Any
+    ctx: Any, grad_out: torch.Tensor, tin: Optional[torch.Tensor], **_: Any
 ) -> torch.Tensor:
     """Applies the derivative of ReLU (a Heaviside step function).
 
     This is the standard surrogate gradient for a ReLU activation:
-    `grad_in = grad_out * (input > 0)`.
-    If input is None (e.g., from a parameter hook), it returns the
+    `grad_in = grad_out * (tin > 0)`.
+    If tin is None (e.g., from a parameter hook), it returns the
     gradient unmodified.
 
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input (Optional[torch.Tensor]): The input tensor from the forward pass.
+        tin (Optional[torch.Tensor]): The input tensor from the forward pass.
 
     Returns:
         torch.Tensor: The modified gradient.
     """
-    if input is None:
+    if tin is None:
         return grad_out
-    return grad_out * (input > 0).to(grad_out.dtype)
+    return grad_out * (tin > 0).to(grad_out.dtype)
 
 
 @register("d(Linear)")
-def identity(ctx: Any, grad_out: torch.Tensor, input: Any, **_: Any) -> torch.Tensor:
+def identity(ctx: Any, grad_out: torch.Tensor, tin: Any, **_: Any) -> torch.Tensor:
     """Applies the identity transform (derivative of a linear function).
 
     This rule simply passes the gradient through unmodified.
@@ -38,7 +38,7 @@ def identity(ctx: Any, grad_out: torch.Tensor, input: Any, **_: Any) -> torch.Te
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input: (Unused) The input tensor from the forward pass.
+        tin: (Unused) The input tensor from the forward pass.
 
     Returns:
         torch.Tensor: The unmodified gradient.
@@ -50,7 +50,7 @@ def identity(ctx: Any, grad_out: torch.Tensor, input: Any, **_: Any) -> torch.Te
 def rectangular(
     ctx: Any,
     grad_out: torch.Tensor,
-    input: torch.Tensor,
+    tin: torch.Tensor,
     a: float = -0.5,
     b: float = 0.5,
     **_: Any,
@@ -64,7 +64,7 @@ def rectangular(
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input (torch.Tensor): The input tensor from the forward pass.
+        tin (torch.Tensor): The input tensor from the forward pass.
         a (float, optional): The lower bound of the rectangular window.
             Defaults to -0.5.
         b (float, optional): The upper bound of the rectangular window.
@@ -73,43 +73,43 @@ def rectangular(
     Returns:
         torch.Tensor: The modified gradient.
     """
-    mask = (input >= a) & (input <= b)
+    mask = (tin >= a) & (tin <= b)
     return grad_out * mask.to(grad_out.dtype)
 
 
 @register("triangular")
 def triangular(
-    ctx: Any, grad_out: torch.Tensor, input: torch.Tensor, width: float = 1.0, **_: Any
+    ctx: Any, grad_out: torch.Tensor, tin: torch.Tensor, width: float = 1.0, **_: Any
 ) -> torch.Tensor:
     """Applies a triangular surrogate gradient.
 
-    The gradient is scaled by a factor that peaks at 1.0 (at input=0)
-    and linearly decays to 0.0 at `input=±width`.
+    The gradient is scaled by a factor that peaks at 1.0 (at tin=0)
+    and linearly decays to 0.0 at `tin=±width`.
 
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input (torch.Tensor): The input tensor from the forward pass.
+        tin (torch.Tensor): The input tensor from the forward pass.
         width (float, optional): The half-width of the triangular pulse.
             Defaults to 1.0.
 
     Returns:
         torch.Tensor: The modified gradient.
     """
-    g = (1 - (input.abs() / max(width, 1e-6))).clamp(min=0.0)
+    g = (1 - (tin.abs() / max(width, 1e-6))).clamp(min=0.0)
     return grad_out * g
 
 
 @register("scale")
 def scale(
-    ctx: Any, grad_out: torch.Tensor, input: Any, s: float = 1.0, **_: Any
+    ctx: Any, grad_out: torch.Tensor, tin: Any, s: float = 1.0, **_: Any
 ) -> torch.Tensor:
     """Scales the gradient by a constant factor `s`.
 
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input: (Unused) The input tensor from the forward pass.
+        tin: (Unused) The input tensor from the forward pass.
         s (float, optional): The scaling factor. Defaults to 1.0.
 
     Returns:
@@ -122,7 +122,7 @@ def scale(
 def clip_norm(
     ctx: Any,
     grad_out: torch.Tensor,
-    input: Any,
+    tin: Any,
     max_norm: float = 1.0,
     eps: float = 1e-12,
     **_: Any,
@@ -135,7 +135,7 @@ def clip_norm(
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input: (Unused) The input tensor from the forward pass.
+        tin: (Unused) The input tensor from the forward pass.
         max_norm (float, optional): The maximum allowed norm.
             Defaults to 1.0.
         eps (float, optional): Epsilon for numerical stability when
@@ -151,7 +151,7 @@ def clip_norm(
 
 @register("noise")
 def noise(
-    ctx: Any, grad_out: torch.Tensor, input: Any, sigma: float = 0.1, **_: Any
+    ctx: Any, grad_out: torch.Tensor, tin: Any, sigma: float = 0.1, **_: Any
 ) -> torch.Tensor:
     """Adds zero-mean Gaussian noise to the gradient.
 
@@ -160,7 +160,7 @@ def noise(
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input: (Unused) The input tensor from the forward pass.
+        tin: (Unused) The input tensor from the forward pass.
         sigma (float, optional): The standard deviation of the noise.
             Defaults to 0.1.
 
@@ -174,7 +174,7 @@ def noise(
 def centralize(
     ctx: Any,
     grad_out: torch.Tensor,
-    input: Any,
+    tin: Any,
     dim: int = -1,
     keepdim: bool = True,
     **_: Any,
@@ -187,7 +187,7 @@ def centralize(
     Args:
         ctx: (Unused) The autograd context.
         grad_out (torch.Tensor): The incoming gradient.
-        input: (Unused) The input tensor from the forward pass.
+        tin: (Unused) The input tensor from the forward pass.
         dim (int, optional): The dimension along which to compute the
             mean. Defaults to -1.
         keepdim (bool, optional): Whether the output tensor has `dim`

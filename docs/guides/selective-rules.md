@@ -47,7 +47,7 @@ with xg.use("clip_norm", params={"max_norm":0.5}, scope="params"):
     loss.backward()
 ```
 
-**Note:** When a rule runs on a parameter, the `input` tensor argument will be `None`, as there is no corresponding forward-pass activation.
+**Note:** When a rule runs on a parameter, the `tin` tensor argument will be `None`, as there is no corresponding forward-pass activation.
 
 ---
 

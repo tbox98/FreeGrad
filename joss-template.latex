@@ -6,6 +6,21 @@
 \geometry{margin=1in}
 \usepackage{calc}
 
+% --- Add these packages for highlighting support ---
+\usepackage{color}
+\usepackage{fancyvrb}
+%\newcommand{\VerbBar}{|}
+%\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add framed for the background shading
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+
+% --- Inject Pandoc Highlighting Macros ---
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
 % --- Fix for Pandoc tight lists ---
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%

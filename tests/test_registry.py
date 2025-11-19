@@ -6,7 +6,7 @@ import freegrad
 
 def test_register_and_get_rule():
     @freegrad.register("double_grad")
-    def double_rule(ctx, grad_out, input, **_):
+    def double_rule(ctx, grad_out, tin, **_):
         return 2 * grad_out
 
     fn = freegrad.get("double_grad")

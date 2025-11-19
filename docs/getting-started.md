@@ -74,8 +74,8 @@ print("Gradients with rectangular_jam:", x.grad)
 ### Jamming Rules
 
   * `"full_jam"`: Multiplies gradient by uniform `U(0, 1)` noise.
-  * `"positive_jam"`: Applies `U(0, 1)` noise where `input >= 0`, zeros otherwise.
-  * `"rectangular_jam"`: Applies `U(0, 1)` noise where `a <= input <= b`, zeros otherwise.
+  * `"positive_jam"`: Applies `U(0, 1)` noise where `tin >= 0`, zeros otherwise.
+  * `"rectangular_jam"`: Applies `U(0, 1)` noise where `a <= tin <= b`, zeros otherwise.
 
 ---
 

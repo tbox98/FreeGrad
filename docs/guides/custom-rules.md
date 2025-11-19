@@ -9,11 +9,11 @@ You can easily define your own gradient transformation or compose existing ones.
 The easiest way to create a custom rule is to define a function and register it with `xg.register`.
 
 A rule function must have the following signature:
-`fn(ctx, grad_out, input, **params)`
+`fn(ctx, grad_out, tin, **params)`
 
 * `ctx`: The `torch.autograd.Context` (rarely used, can be `None`).
 * `grad_out`: The incoming gradient tensor (i.e., $dL/dy$).
-* `input`: The input tensor from the forward pass (i.e., $x$).
+* `tin`: The input tensor from the forward pass (i.e., $x$).
     * **Note:** This will be `None` if the rule is running on a parameter gradient (from `scope="params"`). Your rule should handle this case.
 * `**params`: A dictionary that collects any parameters passed to `xg.use(..., params={...})`.
 
@@ -28,12 +28,12 @@ import freegrad as xg
 import torch
 
 @xg.register("noisy_threshold")
-def noisy_threshold(ctx, grad_out, input, t: float = 0.0, sigma: float = 0.1):
-    # Handle parameter hooks where input is None
-    if input is None:
+def noisy_threshold(ctx, grad_out, tin, t: float = 0.0, sigma: float = 0.1):
+    # Handle parameter hooks where tin is None
+    if tin is None:
         mask = 1.0
     else:
-        mask = (input >= t).to(grad_out.dtype)
+        mask = (tin >= t).to(grad_out.dtype)
 
     noise = sigma * torch.randn_like(grad_out)
     return grad_out * mask + noise
