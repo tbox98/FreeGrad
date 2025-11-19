@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "freegrad"
-version = "1.0.0"
+version = "1.0.1"
 description = "A PyTorch extension for experimenting with alternative gradient flows."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -37,6 +37,11 @@ dev = [
     "pre-commit>=4.3.0",
     "pandoc>=2.4"
 ]
+
+[project.urls]
+"Repository" = "https://github.com/tbox98/FreeGrad"
+"Bug" = "https://github.com/tbox98/FreeGrad/issues"
+"Documentation" = "https://tbox98.github.io/FreeGrad/"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
