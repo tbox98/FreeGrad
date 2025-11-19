@@ -4,51 +4,65 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 \geometry{margin=1in}
+\usepackage{calc}
 
 % --- Fix for Pandoc tight lists ---
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%
 }
 
-% --- CSL / citeproc support (Pandoc) ---
-% Hanging indent & spacing for references (we keep lengths, but won't use hanging)
+% =========================================
+% --- CSL / Citeproc Configuration ---
+% =========================================
+
+% 1. Define standard lengths
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
-\newlength{\cslentryspacingunit}
-\setlength{\cslentryspacingunit}{0.5\baselineskip}
 \newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
+\setlength{\csllabelwidth}{0pt}
+\newlength{\cslentryspacingunit}
+\setlength{\cslentryspacingunit}{\parskip}
 
-\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry spacing
- {%
-  % no paragraph indentation
-  \setlength{\parindent}{0pt}%
-  % no hanging indent at all: ignore #1
-  % fixed extra space between entries
-  \setlength{\parskip}{0.5\baselineskip}%
- }%
- {\par}
-
-\usepackage{calc}
-
-% Each reference block: just start a new line/paragraph
-\newcommand{\CSLBlock}[1]{#1\par}
-
-% Label (e.g. [1]) followed by a small space, no special indentation
-\newcommand{\CSLLeftMargin}[1]{#1\ }
-
-% Main reference text inline; normal line wrapping (no extra indent)
+% 2. CSS-like commands (just in case Pandoc emits them)
+\newcommand{\CSLLeftMargin}[1]{}
 \newcommand{\CSLRightInline}[1]{#1}
-
-% Indent helper (rarely used by pandoc, but keep it simple)
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
 
-% --- Robust no-op for \citeproctext (emitted by citeproc) ---
+% 3. The CSLReferences Environment
+%    - Forces a list structure to handle hanging indents.
+%    - Explicitly hides any labels (the [] you see).
+\newenvironment{CSLReferences}[2]
+ {%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\partopsep}{0pt}%
+    % Ensure labels take up NO space
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\labelsep}{0pt}%
+    \setlength{\leftmargin}{0pt}%
+    \setlength{\parsep}{0pt}%
+    \setlength{\itemsep}{#2\baselineskip}%
+    %
+    % Hanging Indent Logic
+    \setlength{\leftmargin}{0pt}%
+    \setlength{\itemindent}{0pt}%
+    %
+    % CRITICAL FIX: Force labels to be empty
+    % This removes the [] or numbers completely.
+    \renewcommand{\makelabel}[1]{}%
+  }%
+ }%
+ {\end{list}}
+
+% 4. Robust definition for citeproctext to prevent errors
 \makeatletter
 \DeclareRobustCommand{\citeproctext}[1][]{#1}
 \makeatother
 
-% ===== Helpers to print authors & affiliations from YAML =====
+% =========================================
+% --- YAML Headers ---
+% =========================================
 \makeatletter
 \newcommand{\printauthors}{%
 $for(authors)$%
@@ -62,7 +76,9 @@ $endfor$%
 }
 \makeatother
 
-% ===== Title block =====
+% =========================================
+% --- Document ---
+% =========================================
 \title{$title$}
 \author{\printauthors}
 \date{$date$}

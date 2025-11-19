@@ -28,7 +28,7 @@ bibliography: paper.bib
 
 # Summary
 
-Machine learning research often relies on backpropagation as implemented in
+Machine learning research often relies on backpropagation [@rumelhart1986learning; @lecun2015deep] as implemented in
 PyTorch's **autograd** [@paszke2019pytorch]. While powerful, autograd enforces a strict symmetry
 between forward activations and their associated backward derivatives.
 This coupling can limit experimentation with **alternative gradient rules**, which

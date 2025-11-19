@@ -20,7 +20,7 @@ pdf: $(PAPER).md $(PAPER).bib $(TEMPLATE)
 		--citeproc \
 		--bibliography=$(PAPER).bib \
 		--template=$(TEMPLATE) \
-		--no-highlight \
+		--syntax-highlighting=none \
 		-o $(PAPER).pdf
 
 clean:
