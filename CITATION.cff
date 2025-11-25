@@ -1,0 +1,9 @@
+@article{troiano2025breaking,
+  title   = {Breaking the conventional forward-backward tie in neural networks: Activation functions},
+  author  = {Troiano, Luigi and Gissi, Francesco and Benedetto, Vincenzo and Tortora, Genny},
+  journal = {Neurocomputing},
+  volume  = {654},
+  pages   = {131178},
+  year    = {2025},
+  doi     = {10.1016/j.neucom.2025.131178}
+}
