@@ -1,9 +1,27 @@
-@article{troiano2025breaking,
-  title   = {Breaking the conventional forward-backward tie in neural networks: Activation functions},
-  author  = {Troiano, Luigi and Gissi, Francesco and Benedetto, Vincenzo and Tortora, Genny},
-  journal = {Neurocomputing},
-  volume  = {654},
-  pages   = {131178},
-  year    = {2025},
-  doi     = {10.1016/j.neucom.2025.131178}
-}
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "FreeGrad"
+version: "0.1.0"
+type: software
+authors:
+  - family-names: "Troiano"
+    given-names: "Luigi"
+repository-code: "https://github.com/tbox98/FreeGrad"
+
+preferred-citation:
+  type: article
+  title: "Breaking the conventional forward-backward tie in neural networks: Activation functions"
+  authors:
+    - family-names: "Troiano"
+      given-names: "Luigi"
+    - family-names: "Gissi"
+      given-names: "Francesco"
+    - family-names: "Benedetto"
+      given-names: "Vincenzo"
+    - family-names: "Tortora"
+      given-names: "Genny"
+  journal: "Neurocomputing"
+  volume: "654"
+  pages: "131178"
+  year: 2025
+  doi: "10.1016/j.neucom.2025.131178"
