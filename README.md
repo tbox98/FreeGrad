@@ -10,6 +10,25 @@ Alternative backward rules and gradient transforms alongside PyTorch **autograd*
 
 ---
 
+## What is FreeGrad?
+
+FreeGrad lets you plug in **alternative backward rules** on top of standard PyTorch autograd.
+
+Use it when you want to:
+- experiment with non-standard gradients (e.g. “gradient jamming”, STE-like tricks, custom clipping),
+- decouple forward activations from backward passes,
+- prototype research ideas about learning dynamics without forking PyTorch.
+
+---
+
+## When should I use it?
+
+- 🧪 You do research on training dynamics / gradient flows.
+- 🧱 You need custom backward rules but don't want to patch PyTorch.
+- 🧠 You want to compare standard backprop vs. alternative gradient transforms in a clean way.
+
+---
+
 ## 🚀 Features
 - Register and compose custom **gradient rules** (backward transforms)
 - Apply rules via a **context manager** to activations and/or params
