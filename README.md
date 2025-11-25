@@ -2,6 +2,8 @@
 
 Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
 
+[![arXiv](https://img.shields.io/badge/arXiv-2509.07236-b31b1b.svg)](https://arxiv.org/abs/2509.07236)
+[![Journal](https://img.shields.io/badge/Neurocomputing-10.1016%2Fj.neucom.2025.131178-0066cc.svg)](https://doi.org/10.1016/j.neucom.2025.131178)
 [![CI](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/ci.yml)
 [![Tests](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml/badge.svg)](https://github.com/tbox98/FreeGrad/actions/workflows/tests.yml)
 [![PyPI](https://img.shields.io/pypi/v/freegrad.svg)](https://pypi.org/project/freegrad/)
@@ -169,3 +171,26 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 ## 📄 License
 
 Distributed under the [MIT License](LICENSE).
+
+---
+
+## Citation
+
+If you use FreeGrad in your research, please cite the journal version:
+
+> L. Troiano, F. Gissi, V. Benedetto, G. Tortora,  
+> *Breaking the conventional forward-backward tie in neural networks: Activation functions*,  
+> Neurocomputing 654 (2025) 131178.  
+> https://doi.org/10.1016/j.neucom.2025.131178
+
+```bibtex
+@article{troiano2025breaking,
+  title   = {Breaking the conventional forward-backward tie in neural networks: Activation functions},
+  author  = {Troiano, Luigi and Gissi, Francesco and Benedetto, Vincenzo and Tortora, Genny},
+  journal = {Neurocomputing},
+  volume  = {654},
+  pages   = {131178},
+  year    = {2025},
+  doi     = {10.1016/j.neucom.2025.131178}
+}
+```
