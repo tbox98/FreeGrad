@@ -1,6 +1,6 @@
 # FreeGrad
 
-Alternative backward rules and gradient transforms alongside PyTorch **autograd**.
+Alternative backward rules and gradient transforms alongside **PyTorch autograd**.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2509.07236-b31b1b.svg)](https://arxiv.org/abs/2509.07236)
 [![Journal](https://img.shields.io/badge/Neurocomputing-10.1016%2Fj.neucom.2025.131178-0066cc.svg)](https://doi.org/10.1016/j.neucom.2025.131178)
@@ -10,18 +10,14 @@ Alternative backward rules and gradient transforms alongside PyTorch **autograd*
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://tbox98.github.io/FreeGrad/)
 
----
-
 ## What is FreeGrad?
 
-FreeGrad lets you plug in **alternative backward rules** on top of standard PyTorch autograd.
+FreeGrad is a PyTorch extension for experimenting with alternative backward rules and gradient transforms on top of standard autograd. It lets you plug in **custom backward rules** (e.g. STE-like tricks, gradient jamming, custom clipping), decouple forward activations from backward passes, and prototype research ideas on learning dynamics without forking or patching **PyTorch**.
 
 Use it when you want to:
 - experiment with non-standard gradients (e.g. “gradient jamming”, STE-like tricks, custom clipping),
 - decouple forward activations from backward passes,
 - prototype research ideas about learning dynamics without forking PyTorch.
-
----
 
 ## When should I use it?
 
@@ -29,15 +25,11 @@ Use it when you want to:
 - 🧱 You need custom backward rules but don't want to patch PyTorch.
 - 🧠 You want to compare standard backprop vs. alternative gradient transforms in a clean way.
 
----
-
 ## 🚀 Features
 - Register and compose custom **gradient rules** (backward transforms)
 - Apply rules via a **context manager** to activations and/or params
 - Lightweight wrappers for **activation layers**
 - Works *alongside* standard **autograd** without patching PyTorch
-
----
 
 ## 📦 Installation
 
@@ -50,8 +42,6 @@ pip install -e '.[dev]'
 ```
 
 > 💡 Note: If you’re using **zsh** (default on macOS), don’t forget the quotes around `.[dev]`.
-
----
 
 ## 🧪 Running Tests
 
@@ -104,8 +94,6 @@ python examples/bnn_step_activation.py
 
 > 💡 Some examples require datasets (e.g. MNIST via `torchvision`, DIGITS via `scikit-learn`). They will be downloaded automatically the first time you run them.
 
----
-
 ## ⚡ Quickstart
 
 ```python
@@ -122,8 +110,6 @@ with fg.use(rule="rectangular_jam", params={"a": -1.0, "b": 1.0}, scope="activat
 
 print(x.grad)
 ```
-
----
 
 ## 🛠️ Makefile Shortcuts
 
@@ -153,26 +139,18 @@ make bnn     # BNN with Step activation
 
 > 💡 The `install` step (`pip install -e '.[dev]'`) is included automatically when running `make`, `make test`, or `make examples`.
 
----
-
 ## 📖 Documentation
 
 👉 Full docs available here: [https://tbox98.github.io/FreeGrad/](https://tbox98.github.io/FreeGrad/)
-
----
 
 ## 🤝 Contributing
 
 Contributions are welcome!
 Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
----
-
 ## 📄 License
 
 Distributed under the [MIT License](LICENSE).
-
----
 
 ## Citation
 
