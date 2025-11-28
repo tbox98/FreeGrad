@@ -1,6 +1,6 @@
 # ∇ FreeGrad
 
-Alternative backward rules and gradient transforms alongside **PyTorch autograd**.
+Alternative independent backward rules and gradient transforms alongside **PyTorch autograd**.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2509.07236-b31b1b.svg)](https://arxiv.org/abs/2509.07236)
 [![Journal](https://img.shields.io/badge/Neurocomputing-10.1016%2Fj.neucom.2025.131178-0066cc.svg)](https://doi.org/10.1016/j.neucom.2025.131178)
