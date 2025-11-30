@@ -9,8 +9,8 @@ Welcome to **freegrad** — an extension that lets you experiment with **alterna
 Clone the repository and install in editable mode with development dependencies:
 
 ```bash
-git clone https://github.com/tbox98/FreeGrad.git
-cd FreeGrad
+git clone https://github.com/tbox98/freegrad.git
+cd freegrad
 pip install -e .[dev]
 ```
 
